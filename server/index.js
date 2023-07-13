@@ -1,9 +1,18 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 const app = express();
 dotenv.config();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+app.get('/', (req, res) => {
+	return res.json({message: 'All is fine.'})
+})
 
 async function start() {
 	try {
