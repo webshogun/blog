@@ -73,6 +73,22 @@ export const getById = async (req, res) => {
     });
     res.json(post);
   } catch (error) {
-    console.log(error)
+    console.log(error);
+  }
+};
+
+// Get my posts
+export const getMyPosts = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    const list = await Promise.all(
+      user.posts.map((post) => {
+        return Post.findById(post._id);
+      }),
+    );
+
+    res.json(list);
+  } catch (error) {
+    console.log(error);
   }
 };
