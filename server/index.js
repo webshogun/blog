@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import fileUpload from 'express-fileupload';
 
 import authRoute from './routes/auth.js';
 import postRoute from './routes/posts.js';
@@ -11,11 +12,13 @@ dotenv.config();
 
 // Middleware
 app.use(cors());
+app.use(fileUpload());
 app.use(express.json());
+app.use(express.static('uploads'));
 
 // Routes
 app.use('/api/auth', authRoute);
-app.use('/api/post', postRoute);
+app.use('/api/posts', postRoute);
 
 async function start() {
   try {

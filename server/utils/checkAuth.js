@@ -1,23 +1,23 @@
 import jwt from 'jsonwebtoken';
 
 export const checkAuth = (req, res, next) => {
-	const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
+  const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
 
-	if (token) {
-		try {
-			const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT);
 
-			req.userId = decoded.id;
+      req.userId = decoded.id;
 
-			next();
-		} catch (error) {
-			return res.json({
-				message: 'No access.',
-			});
-		}
-	} else {
-		return res.json({
-			message: 'No access..',
-		});
-	}
+      next();
+    } catch (error) {
+      return res.json({
+        message: 'No access.',
+      });
+    }
+  } else {
+    return res.json({
+      message: 'No access.',
+    });
+  }
 };
