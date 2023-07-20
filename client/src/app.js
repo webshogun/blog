@@ -2,7 +2,7 @@ import Layout from './components/Layout';
 import { Routes, Route } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import PostsPage from './pages/PostsPage';
-import PostPage from './pages/PostsPage';
+import PostPage from './pages/PostPage';
 import AddPostPage from './pages/AddPostPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
