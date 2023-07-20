@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import authRoute from './routes/auth.js';
+import postRoute from './routes/posts.js';
 
 const app = express();
 dotenv.config();
@@ -14,16 +15,17 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoute);
+app.use('/api/post', postRoute);
 
 async function start() {
-	try {
-		await mongoose.connect(
-			`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.38bz2pv.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
-		);
-		app.listen(process.env.PORT, () => console.log('Server started'));
-	} catch (error) {
-		console.log(error);
-	}
+  try {
+    await mongoose.connect(
+      `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.38bz2pv.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+    );
+    app.listen(process.env.PORT, () => console.log('Server started'));
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 start();
