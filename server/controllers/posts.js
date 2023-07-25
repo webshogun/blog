@@ -1,5 +1,6 @@
 import Post from '../models/post.js';
 import User from '../models/user.js';
+import Comment from '../models/comment.js'
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 

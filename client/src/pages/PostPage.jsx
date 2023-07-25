@@ -7,13 +7,15 @@ import { toast } from 'react-toastify';
 
 import axios from '../utils/axios';
 import { removePost } from '../redux/features/post/postSlice';
-import { createComment } from '../redux/features/comment/commentSlice';
+import { createComment, getPostComments } from '../redux/features/comment/commentSlice';
+import { CommentItem } from '../components/CommentItem';
 
 const PostPage = () => {
   const [post, setPost] = useState(null);
   const [comment, setComment] = useState('');
 
   const { user } = useSelector((state) => state.auth);
+  const { comments } = useSelector((state) => state.comment);
 
   const params = useParams();
   const navigate = useNavigate();
@@ -24,9 +26,21 @@ const PostPage = () => {
     setPost(data);
   }, [params.id]);
 
+  const fetchComments = useCallback(async () => {
+    try {
+      dispatch(getPostComments(params.id));
+    } catch (error) {
+      console.log(error);
+    }
+  }, [params.id, dispatch]);
+
   useEffect(() => {
     fetchPost();
   }, [fetchPost]);
+
+  useEffect(() => {
+    fetchComments();
+  }, [fetchComments]);
 
   const removePostHandler = () => {
     try {
@@ -116,10 +130,12 @@ const PostPage = () => {
               onClick={handleSubmit}
               className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4"
             >
-              Отправить
+              Send
             </button>
           </form>
-
+          {comments?.map((cmt) => (
+            <CommentItem key={cmt._id} cmt={cmt} />
+          ))}
         </div>
       </div>
     </div>
