@@ -7,11 +7,14 @@ import { toast } from 'react-toastify';
 
 import axios from '../utils/axios';
 import { removePost } from '../redux/features/post/postSlice';
+import { createComment } from '../redux/features/comment/commentSlice';
 
 const PostPage = () => {
   const [post, setPost] = useState(null);
+  const [comment, setComment] = useState('');
 
   const { user } = useSelector((state) => state.auth);
+
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,6 +33,16 @@ const PostPage = () => {
       dispatch(removePost(params.id));
       toast('The post has been deleted.');
       navigate('/posts');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = () => {
+    try {
+      const postId = params.id;
+      dispatch(createComment({ postId, comment }));
+      setComment('');
     } catch (error) {
       console.log(error);
     }
@@ -89,7 +102,25 @@ const PostPage = () => {
             </div>
           </div>
         </div>
-        <div className="w-1/3 p-8 bg-gray-700 flex flex-col gap-2 rounded-sm"></div>
+        <div className="w-1/3 p-8 bg-gray-700 flex flex-col gap-2 rounded-sm">
+          <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
+            <input
+              type="text"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Comment"
+              className="text-black w-full rounded-sm bg-gray-400 border p-2 text-xs outline-none placeholder:text-gray-700"
+            />
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4"
+            >
+              Отправить
+            </button>
+          </form>
+
+        </div>
       </div>
     </div>
   );
